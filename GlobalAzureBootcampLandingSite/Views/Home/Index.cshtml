@@ -1,0 +1,493 @@
+﻿@model GlobalAzureBootcampLandingSite.Models.ConferenceInfo
+@using Microsoft.AspNetCore.Http.Extensions
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.Tags = Model.Tags;
+    ViewBag.GoogleAnalyticsId = Model.GoogleAnalyticsId;
+
+    var beginDateTime = DateTime.Parse(Model.BeginDate) + TimeSpan.Parse(Model.BeginTime);
+    var endDateTime = DateTime.Parse(Model.EndDate) + TimeSpan.Parse(Model.EndTime);
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("ko-KR");
+    var isEndDateTimePassed = DateTime.Now > endDateTime;
+}
+
+@section header {
+    <meta property="og:url" content="@UriHelper.GetDisplayUrl(Context.Request)" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@Model.MarketingTitle" />
+    <meta property="og:description" content="@Model.MarketingDescription" />
+    <meta property="og:image" content="@(new Uri(new Uri(@UriHelper.GetDisplayUrl(Context.Request), UriKind.Absolute), Model.MarketingImageUrl))" />
+    <meta property="og:image:alt" content="@Model.MarketingDescription" />
+    <meta property="fb:app_id" content="@Model.FacebookAppId" />
+}
+
+<!-- Section - Hero Start -->
+<section id="hero-bg-slider" class="h-100 p-0 w-100">
+    <!-- BG Slider -->
+    <div class="carousel-custom carousel-fullscreen prev-next-button-orange" data-prev-next-buttons="true" data-page-dots="false" data-draggable="false" data-autoplay="3500">
+        <div class="carousel-cell bg-img-cover bg-overlay-black-7 h-100 w-100">
+            <div class="container h-100">
+                <div class="row align-items-center h-100">
+                    <div class="col-lg-10 col-xl-10">
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-200 text-small text-uppercase">@Model.Title</span>
+                        <h2 class="font-alt font-w-700 letter-spacing-2 mt-3 text-gray-100 text-uppercase title-large title-sm-extra-large title-md-extra-large-3">전세계 최대 규모의 <br />Azure 사용자그룹 컨퍼런스에<br /> 여러분을 초대합니다!</h2>
+                        <span class="bg-blue d-block mt-3 sep-line-medium-thick-long"></span>
+                    </div>
+                    <!-- //.col-lg-10 -->
+                </div>
+                <!-- //.row -->
+            </div>
+            <!-- //.container -->
+        </div>
+        <!-- //.carousel-cell -->
+
+        <div class="carousel-cell bg-img-cover bg-overlay-black-7 h-100 w-100">
+            <div class="container h-100">
+                <div class="row align-items-center h-100">
+                    <div class="col-lg-10 col-xl-10">
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-200 text-small text-uppercase">Learn from the experts</span>
+                        <h2 class="font-alt font-w-700 letter-spacing-2 mt-3 text-gray-100 text-uppercase title-large title-sm-extra-large title-md-extra-large-3">최고의 전문가들이 준비한 <br />클라우드 기반의 다양한 기술 토픽들을<BR />현장에서 만나보세요!</h2>
+                        <span class="bg-blue d-block mt-3 sep-line-medium-thick-long"></span>
+                    </div>
+                    <!-- //.col-lg-10 -->
+                </div>
+                <!-- //.row -->
+            </div>
+            <!-- //.container -->
+        </div>
+        <!-- //.carousel-cell -->
+
+        <div class="carousel-cell bg-img-cover bg-overlay-black-7 h-100 w-100">
+            <div class="container h-100">
+                <div class="row align-items-center h-100">
+                    <div class="col-lg-10 col-xl-10">
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-200 text-small text-uppercase">Save the date</span>
+                        <h2 class="font-alt font-w-700 letter-spacing-2 mt-3 text-gray-100 text-uppercase title-large title-sm-extra-large title-md-extra-large-3">
+                            @if (isEndDateTimePassed)
+                            {
+                                <text>행사에 참여해주셔서 대단히 감사드립니다.</text>
+                            }
+                            else
+                            {
+                                <text>좌석이 한정되어있습니다.<br />기회를 놓치기 전에<br /><a href="@Model.RegisterUrl" rel="external nofollow" target="_blank">지금 바로 등록하기!</a></text>
+                            }
+                        </h2>
+                        <span class="bg-blue d-block mt-3 sep-line-medium-thick-long"></span>
+                    </div>
+                    <!-- //.col-lg-10 -->
+                </div>
+                <!-- //.row -->
+            </div>
+            <!-- //.container -->
+        </div>
+        <!-- //.carousel-cell -->
+    </div>
+    <!-- //.carousel-custom -->
+</section>
+<!-- Section - Hero End -->
+<!-- Milestones Start -->
+<div id="milestones" class="bg-white pb-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-3 border-gray-200 border-md-right mt-5 mt-md-0 text-center">
+                <span class="timer d-block font-alt font-w-700 letter-spacing-1 title-extra-large-2" data-from="0" data-to="@Model.Tracks.Count" data-speed="1500">0</span>
+                <span class="bg-blue d-block mt-2 mx-auto sep-line-thick"></span>
+                <span class="d-block font-alt font-w-600 letter-spacing-2 mt-3 text-gray-800 text-large text-uppercase">트랙</span>
+            </div>
+            <!-- //.col-md-3 -->
+
+            <div class="col-md-3 border-gray-200 border-md-right mt-5 mt-md-0 text-center">
+                <span class="timer d-block font-alt font-w-700 letter-spacing-1 title-extra-large-2" data-from="0" data-to="@Model.Speakers.Count" data-speed="1500">0</span>
+                <span class="bg-blue d-block mt-2 mx-auto sep-line-thick"></span>
+                <span class="d-block font-alt font-w-600 letter-spacing-2 mt-3 text-gray-800 text-large text-uppercase">스피커</span>
+            </div>
+            <!-- //.col-md-3 -->
+
+            <div class="col-md-3 border-gray-200 border-md-right text-center">
+                <span class="timer d-block font-alt font-w-700 letter-spacing-1 title-extra-large-2" data-from="0" data-to="@Model.Sessions.Count(x => x.Presentation)" data-speed="1500">0</span>
+                <span class="bg-blue d-block mt-2 mx-auto sep-line-thick"></span>
+                <span class="d-block font-alt font-w-600 letter-spacing-2 mt-3 text-gray-800 text-large text-uppercase">세션</span>
+            </div>
+            <!-- //.col-md-3 -->
+
+            <div class="col-md-3 mt-5 mt-md-0 text-center">
+                <span class="timer d-block font-alt font-w-700 letter-spacing-1 title-extra-large-2" data-from="0" data-to="@Model.Sponsors.Count" data-speed="1500">0</span>
+                <span class="bg-blue d-block mt-2 mx-auto sep-line-thick"></span>
+                <span class="d-block font-alt font-w-600 letter-spacing-2 mt-3 text-gray-800 text-large text-uppercase">스폰서</span>
+            </div>
+            <!-- //.col-md-3 -->
+        </div>
+        <!-- //.row -->
+    </div>
+    <!-- //.container -->
+</div>
+<!-- Milestones End -->
+<!-- Section - About Start -->
+<div id="about" class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 text-center mb-3 mb-lg-5">
+                <h3 class="font-alt font-w-700 letter-spacing-2 m-0 text-uppercase title-small">@Model.Title</h3>
+                <span class="d-block font-alt font-w-600 letter-spacing-1 mt-2 text-gray-800 text-small text-uppercase">@Model.Description</span>
+                <span class="bg-blue d-block mt-4 mx-auto sep-line-medium-thick-long"></span>
+            </div>
+            <!-- //.col-lg-6 -->
+        </div>
+        <!-- //.row -->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-5 text-center text-lg-left">
+                <p class="font-alt font-w-600 letter-spacing-1 text-medium text-uppercase">@Model.Synopsis.Title</p>
+                <p class="text-medium">@Model.Synopsis.Description</p>
+                <a href="https://global.azurebootcamp.net" target="_blank" rel="external nofollow" class="page-scroll btn btn-outline-black btn-small border-thick mt-2 mx-0">자세히 알아보기</a>
+            </div>
+            <!-- //.col-lg-6 -->
+
+            <div class="col-lg-6 offset-xl-1">
+                <div class="row">
+                    <div class="col-sm-6 mt-5 mt-lg-0 text-center text-lg-left">
+                        <i class="fa fa-map-marker fa-3x text-blue"></i>
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 mt-3 text-medium text-uppercase">행사 일시</span>
+                        <p class="mb-0 mt-2 text-medium">
+                            @beginDateTime.Date.ToString("yyyy년 M월 d일 dddd", culture)
+                            <br>
+                            @beginDateTime.ToString("tt h시", culture) ~ @endDateTime.ToString("tt h시", culture)
+                        </p>
+                    </div>
+                    <!-- //.col-sm-6 -->
+
+                    <div class="col-sm-6 mt-5 mt-lg-0 text-center text-lg-left">
+                        <i class="fa fa-calendar-check-o fa-3x text-blue"></i>
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 mt-3 text-medium text-uppercase">행사 장소</span>
+                        <p class="mb-0 mt-2 text-medium">
+                            @Model.Venue.Title
+                            <br />
+                            <a href="@Model.Venue.MapUrl" target="_blank" rel="external nofollow">@Model.Venue.Location</a>
+                        </p>
+                    </div>
+                    <!-- //.col-sm-6 -->
+
+                    <div class="col-sm-6 mt-5 text-center text-lg-left">
+                        <i class="fa fa-bullhorn fa-3x text-blue"></i>
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 mt-3 text-medium text-uppercase">스피커</span>
+                        <p class="mb-0 mt-2 text-medium">@(string.Join(", ", Model.Speakers.Select(x => x.Name)))</p>
+                    </div>
+                    <!-- //.col-sm-6 -->
+
+                    <div class="col-sm-6 mt-5 text-center text-lg-left">
+                        <i class="fa fa-hand-peace-o fa-3x text-blue"></i>
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 mt-3 text-medium text-uppercase">스폰서</span>
+                        <p class="mb-0 mt-2 text-medium">@(string.Join(", ", Model.Sponsors.Select(x => x.Name)))</p>
+                    </div>
+                    <!-- //.col-sm-6 -->
+                </div>
+                <!-- //.row -->
+            </div>
+            <!-- //.col-lg-6 -->
+        </div>
+        <!-- //.row -->
+    </div>
+    <!-- //.container -->
+</div>
+<!-- //Section - About End -->
+<!-- Section - Schedule Start -->
+<section id="schedule" class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 text-center mb-3 mb-lg-5">
+                <h3 class="font-alt font-w-700 letter-spacing-2 m-0 text-uppercase title-small">주요 행사 일정</h3>
+                <span class="d-block font-alt font-w-600 letter-spacing-1 mt-2 text-gray-800 text-small text-uppercase">트랙별 세부 세션 일정을 확인하세요.</span>
+                <span class="bg-blue d-block mt-4 mx-auto sep-line-medium-thick-long"></span>
+            </div>
+            <!-- //.col-lg-6 -->
+        </div>
+        <!-- //.row -->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center">
+                    <ul id="tab-schedule" class="nav nav-tabs tabs-blue font-alt font-w-600 letter-spacing-1 text-center text-small text-uppercase" role="tablist">
+                        @for (int i = 0; i < Model.Tracks.Count; i++)
+                        {
+                            <li class="nav-item d-table-cell">
+                                <a href="#tab-day-@(i+1)" id="day-@(i+1)" data-toggle="tab" role="tab" aria-controls="day-@(i+1)" class="nav-link @(i == 0 ? "active" : "")" aria-expanded="true">@Model.Tracks[i].TrackName</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <div id="tab-content-schedule" class="tab-content">
+                    @for (int i = 0; i < Model.Tracks.Count; i++)
+                    {
+                        <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="tab-day-@(i+1)" role="tabpanel" aria-labelledby="day-@(i+1)">
+                            <div class="mb-4 mt-5 text-center">
+                                <span class="d-block font-alt font-w-600 letter-spacing-1 mt-1 text-small text-uppercase">@(Model.Tracks[i].TrackName)</span>
+                            </div>
+
+                            @foreach (var eachSession in Model.Sessions.Where(x => x.Track == Model.Tracks[i].Id))
+                            {
+                                <div class="align-items-top border-bottom d-md-flex py-3 session-item" data-id="@eachSession.Id">
+                                    <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-700 text-small text-uppercase">@eachSession.Time</span>
+
+                                    <div class="d-block ml-md-5 mt-2 mt-md-0">
+                                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-small text-uppercase">
+                                            <text>@eachSession.Title</text>
+                                            @if (isEndDateTimePassed && eachSession.Presentation)
+                                            {
+                                                if (eachSession.SlideUrl != null)
+                                                {
+                                                    <text><a href="@eachSession.SlideUrl" target="_blank" rel="external nofollow">[발표 자료]</a></text>
+                                                }
+                                                else
+                                                {
+                                                    <text>[발표 자료]</text>
+                                                }
+                                            }
+                                        </span>
+                                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-700 text-extra-small text-uppercase">
+                                            @foreach (var eachSpeaker in eachSession.Speakers)
+                                            {
+                                                <text>
+                                                    @Model.Speakers[eachSpeaker].Name / @Model.Speakers[eachSpeaker].Org<br />
+                                                </text>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div id="session-form-@(eachSession.Id)" class="popup">
+                                    <strong>@eachSession.Title</strong>
+                                    <div>
+                                        @foreach (var eachSpeaker in eachSession.Speakers)
+                                        {
+                                            <text>
+                                                @Model.Speakers[eachSpeaker].Name / @Model.Speakers[eachSpeaker].Org<br />
+                                            </text>
+                                        }
+                                    </div>
+                                    @if (eachSession.Presentation)
+                                    {
+                                        <text>난이도: @eachSession.Level</text>
+                                        <hr />
+                                        <p>@Html.Raw(eachSession.Abstract.Replace("\r", string.Empty).Replace("\n", "<br />"))</p>
+                                        if (isEndDateTimePassed)
+                                        {
+                                            if (eachSession.SlideUrl != null)
+                                            {
+                                                <text>슬라이드 발표 자료: <a href="@eachSession.SlideUrl" rel="external nofollow" target="_blank">보기</a></text><br /><br />
+                                            }
+                                            else
+                                            {
+                                                <text>슬라이드 발표 자료는 발표자의 요청으로 공개되지 않았거나 아직 준비되지 않았습니다.</text><br /><br />
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p>@Html.Raw(eachSession.Description.Replace("\r", string.Empty).Replace("\n", "<br />"))</p>
+                                    }
+                                    <button class="popup-close">닫기</button>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //Section - Schedule End -->
+<!-- Section - Speakers Start -->
+<section id="speakers" class="bg-gray-100">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 text-center mb-3 mb-lg-5">
+                <h3 class="font-alt font-w-700 letter-spacing-2 m-0 text-uppercase title-small">스피커</h3>
+                <span class="d-block font-alt font-w-600 letter-spacing-1 mt-2 text-gray-800 text-small text-uppercase">Microsoft Azure 플랫폼 전문가들을 소개합니다.</span>
+                <span class="bg-blue d-block mt-4 mx-auto sep-line-medium-thick-long"></span>
+            </div>
+            <!-- //.col-lg-6 -->
+        </div>
+        <!-- //.row -->
+
+        <div class="row justify-content-center">
+            @foreach (var eachSpeaker in Model.Speakers)
+            {
+                <div class="col-md-6 col-lg-3 speaker-item" data-id="@eachSpeaker.Id">
+                    <figure class="m-0 position-relative">
+                        <img src="~/Images/Speakers/@(eachSpeaker.Id).jpg" alt="@eachSpeaker.Name" class="img-fluid" />
+                        @{
+                            var bgClassName = "bg-blue";
+                            switch (eachSpeaker.Role.ToUpperInvariant())
+                            {
+                                case "ORGANIZER": bgClassName = "bg-green"; break;
+                                case "SPONSOR": bgClassName = "bg-orange"; break;
+                            }
+                        }
+                        <figcaption class="label label-small @(bgClassName) bottom-0 m-3 position-absolute right-0 text-uppercase text-white">@eachSpeaker.Role</figcaption>
+                    </figure>
+
+                    <div class="py-4 text-center">
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-small text-uppercase">@eachSpeaker.Name</span>
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-800 text-extra-small text-uppercase">
+                            @eachSpeaker.Org
+                        </span>
+                    </div>
+
+                    <div id="speaker-form-@(eachSpeaker.Id)" class="popup">
+                        <strong>@eachSpeaker.Name</strong>&nbsp;[@eachSpeaker.Role]<br /><br />
+                        <strong>스피커 소개</strong><br />
+                        <div>@Html.Raw(eachSpeaker.Bio.Replace("\r", string.Empty).Replace("\n", "<br />"))</div><br /><br />
+                        <strong>세션 목록</strong><br />
+                        <ul>
+                            @foreach (var eachSession in Model.Sessions.Where(x => x.Presentation && x.Speakers.Contains(eachSpeaker.Id)))
+                            {
+                                <text>
+                                    <li>[@Model.Tracks[eachSession.Track].TrackName] [@eachSession.Time] [@eachSession.Level] @eachSession.Title</li>
+                                </text>
+                            }
+                        </ul>
+                        <button class="popup-close">닫기</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- //.container -->
+</section>
+<!-- //Section - Speakers End -->
+<!-- Section - Sponsors Start -->
+<section id="sponsors" class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 text-center mb-3 mb-lg-5">
+                <h3 class="font-alt font-w-700 letter-spacing-2 m-0 text-uppercase title-small">스폰서</h3>
+                <span class="d-block font-alt font-w-600 letter-spacing-1 mt-2 text-gray-800 text-small text-uppercase">함께해주신 스폰서 여러분께 다시 한 번 감사드립니다.</span>
+                <span class="bg-blue d-block mt-4 mx-auto sep-line-medium-thick-long"></span>
+            </div>
+            <!-- //.col-lg-6 -->
+        </div>
+        <!-- //.row -->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="row">
+                    @foreach (var eachSponsor in Model.Sponsors)
+                    {
+                        <div class="col-sm-5 col-md-3 text-center mt-4">
+                            <a href="@eachSponsor.Url" target="_blank" rel="external nofollow">
+                                <img width="200" src="~/Images/Sponsors/@(eachSponsor.Id).png" alt="@eachSponsor.Name" />
+                            </a>
+                        </div>
+                        <!-- //.col-sm-6 -->
+                    }
+                </div>
+                <!-- //.row -->
+            </div>
+            <!-- //.col-lg-10 -->
+        </div>
+        <!-- //.row -->
+    </div>
+    <!-- //.container -->
+</section>
+<!-- //Section - Sponsors End -->
+<!-- Ticket Start -->
+<div id="ticket" class="bg-img-cover bg-overlay-black-7 section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-xl-7">
+                <span class="d-block font-alt font-w-600 letter-spacing-1 text-gray-200 text-small text-uppercase">좌석이 많지 않습니다!</span>
+                <span class="d-block font-alt font-w-700 letter-spacing-1 mt-2 title-small title-md-extra-large-2 text-uppercase text-white">
+                    조기 예약 마감 예상!<br />
+                    사전 예약등록을 서두르세요.
+                </span>
+                <span class="bg-blue d-block mt-3 sep-line-medium-thick-long"></span>
+            </div>
+            <!-- //.col-md-6 -->
+
+            <div class="col-md-6 col-lg-5 col-xl-4 mt-4 mt-md-0 offset-lg-1">
+                <div class="card bg-white border-0 box-shadow-wide">
+                    <div class="card-header bg-white border-0 pb-0 pt-5 text-center">
+                        <span class="label label-small bg-orange m-3 position-absolute right-0 text-uppercase text-white top-0">@Model.BasicTicket.TicketName</span>
+                        <span class="d-block font-alt font-w-600 letter-spacing-1 mt-4 text-gray-700 text-small text-uppercase">@Model.BasicTicket.TicketAudience</span>
+
+                        <div class="mt-3">
+                            <span class="pricing-dollar font-alt font-w-700 text-uppercase title-large">@Model.BasicTicket.TicketName&nbsp;</span>
+                            <span class="font-alt font-w-700 text-uppercase title-extra-large-4">@Model.BasicTicket.TicketPrice</span>
+                        </div>
+                        <!-- //.mt-3 -->
+
+                        <span class="bg-gray-200 d-block mt-4 sep-line-thin-full"></span>
+                    </div>
+                    <!-- //.card-header -->
+
+                    <div class="card-body px-5 py-4">
+                        <ul class="list-unstyled text-medium">
+                            @foreach (var eachTicketDetail in Model.BasicTicket.TicketDetails)
+                            {
+                                <li class="checkmark checkmark-blue my-1">@eachTicketDetail</li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- //.card-body -->
+
+                    <div class="card-footer bg-blue border-0 p-0">
+                        @if (isEndDateTimePassed)
+                        {
+                            <a href="#" rel="external nofollow" class="page-scroll btn btn-block rounded-bottom text-white">행사 종료됨</a>
+                        }
+                        else
+                        {
+                            <a href="@Model.RegisterUrl" target="_blank" rel="external nofollow" class="page-scroll btn btn-block rounded-bottom text-white">티켓 구매하기</a>
+                        }
+                    </div>
+                    <!-- //.card-footer -->
+                </div>
+                <!-- //.card -->
+            </div>
+            <!-- //.col-md-6 -->
+        </div>
+        <!-- //.row -->
+    </div>
+    <!-- //.container -->
+</div>
+<!-- //Ticket End -->
+<!-- Section - Contact Start -->
+<section id="contact" class="bg-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-5">
+                <h3 class="font-alt font-w-700 letter-spacing-2 m-0 text-uppercase title-small">궁금 하신점이 있으신가요?</h3>
+                <span class="d-block font-alt font-w-600 letter-spacing-1 mt-2 text-gray-800 text-small text-uppercase">문의 사항을 아래에 입력하고, 문의하기 버튼을 눌러주세요.</span>
+                <span class="bg-blue d-block mt-4 sep-line-medium-thick-long"></span>
+
+                <form action="https://mailthis.to/rkttu@rkttu.com" method="post" id="form-contact" class="mt-4">
+                    <div class="form-group">
+                        <input id="_name" name="name" type="text" placeholder="이름" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input id="_replyto" name="_replyto" type="email" placeholder="메일 주소" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input id="_subject" name="_subject" type="text" placeholder="제목" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="10" placeholder="문의하실 내용" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <span>입력하신 연락처 및 개인 식별 정보는 문의에 대한 답변을 드리기 위한 목적 이외에는 사용되지 않습니다.</span>
+                    </div>
+                    <input type="hidden" name="_honeypot" value="" />
+                    <input type="hidden" name="_confirmation" value="정상적으로 문의 내용이 접수되었습니다. 빠른 시일 내에 답변을 드리겠습니다." />
+                    <button type="submit" class="btn btn-small btn-lg-medium btn-blue mt-4">문의하기</button>
+                </form>
+            </div>
+            <!-- //.col-lg-6 -->
+        </div>
+        <!-- //.row -->
+    </div>
+    <!-- //.container -->
+</section>
+<!-- Section - Contact End -->

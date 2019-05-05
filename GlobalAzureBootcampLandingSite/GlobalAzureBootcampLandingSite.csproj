@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <UserSecretsId>5fa61349-b293-4aaa-ac3e-a65b84cee895</UserSecretsId>
+    <StartupObject>GlobalAzureBootcampLandingSite.Program</StartupObject>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview4-19216-03" />
+  </ItemGroup>
+
+</Project>
